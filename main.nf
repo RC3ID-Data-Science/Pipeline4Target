@@ -30,6 +30,7 @@ include { SNPStatistics } from './modules/SNPStatistics.nf'
 include { FastaConversion } from './modules/FastaConversion.nf'
 include { Annotation } from './modules/Annotation.nf'
 include { GenerateReport } from '.modules/GenerateReport.nf'
+include { ReportCleanUp } from '.modules/ReportCleanUp.nf
 
 workflow {
 
@@ -55,5 +56,6 @@ workflow {
     FastaConversion(sampleName_ch, Masking.out.fixed_vcf, Masking.out.fixed_idx, ref_file, ref_index_file, ref_dict_file)
     Annotation(sampleName_ch, Masking.out.fixed_vcf, Masking.out.minor_vcf)
     GenerateReport(sampleName_ch, Annotation.out.ann_fixed_vcf, Annotation.out.ann_minor_vcf)
+    ReportCleanUp(sampleName_ch, GenerateReport.out.fixed_report, GenerateReport.out.minor_report, SNPStatistics.out.fixed_snpstats, SNPStatistics.out.minor_snpstats)
 
 }
