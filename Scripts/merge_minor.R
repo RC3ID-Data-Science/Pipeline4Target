@@ -9,7 +9,7 @@ vcf_table_file <- args[2]
 snp_stats <- read.table(snp_stats_file, sep = '\t', header = TRUE, check.names = FALSE, quote = "")
 vcf_table <- read.table(vcf_table_file, sep = '\t', header = TRUE, check.names = FALSE, quote = "")
 
-snp_type <- c(rep("UNFIXED", length.out = nrow(vcf_table)))
+snp_type <- c(rep("MINOR", length.out = nrow(vcf_table)))
 vcf_table <- cbind(snp_type, vcf_table)
 
 merged_table <- left_join(vcf_table, snp_stats, by = c("POS"))
