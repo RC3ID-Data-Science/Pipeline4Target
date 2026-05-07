@@ -43,5 +43,6 @@ workflow {
     Filtering(sampleName_ch, Calling.out.called_vcf, Calling.out.called_idx, ref_file, ref_index_file, ref_dict_file)
     FastaConversion(sampleName_ch, Filtering.out.clean_vcf, Filtering.out.clean_idx, ref_file, ref_index_file, ref_dict_file)
     Lofreq(sampleName_ch, Dedup.out.bam_processed, Dedup.out.bam_processed_idx, ref_file, ref_index_file, ref_dict_file)
+    Annotation(sampleName_ch, Filtering.out.clean_vcf, Lofreq.out.minor_vcf)
 
 }

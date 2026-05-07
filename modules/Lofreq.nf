@@ -5,7 +5,7 @@ process Lofreq {
     conda 'lofreq'
 
     /*
-     *publishDir params.outdir + "/Calling", mode: 'copy', saveAs: {filename -> if (filename.endsWith(".minor.vcf")) {"${sampleName}.minor.vcf"}}
+     *publishDir params.outdir + "/Lofreq", mode: 'copy', saveAs: {filename -> if (filename.endsWith(".minor.vcf")) {"${sampleName}.minor.vcf"}}
      *
      */
 
