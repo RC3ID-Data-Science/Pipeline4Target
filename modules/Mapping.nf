@@ -4,7 +4,7 @@ process Mapping {
 
     conda 'bwa'
 
-    //publishDir params.outdir + "/Aligned", mode: 'copy', saveAs: { filename -> "${sampleName}_aligned.sam"}
+    publishDir params.outdir + "/Aligned", mode: 'copy', saveAs: { filename -> "${sampleName}_aligned.sam"}
 
     input:
         val sampleName

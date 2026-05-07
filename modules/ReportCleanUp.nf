@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-process ReportCleanup {
+process ReportCleanUp {
 
     conda 'r-dplyr r-readr'
 

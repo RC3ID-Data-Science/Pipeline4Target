@@ -2,11 +2,12 @@
 
 process Masking {
 
-    publishDir params.outdir + "/VCF", mode: 'copy', saveAs: { filename -> if (filename.endsWith(".fixed.vcf")) {"${sampleName}.fixed.vcf"}
-                                                    else if (filename.endsWith(".fixed.vcf.idx")) {"${sampleName}.fixed.vcf.idx"}}
-                                                    else if (filename.endsWith(".minor.vcf")) {"${sampleName}.minor.vcf"}}
-                                                    else if (filename.endsWith(".minor.vcf.idx")) {"${sampleName}.minor.vcf.idx"}}
     conda 'gatk4'
+
+    publishDir params.outdir + "/VCF", mode: 'copy', saveAs: { filename -> if (filename.endsWith(".fixed.vcf")) {"${sampleName}.fixed.vcf"}
+                                                    else if (filename.endsWith(".fixed.vcf.idx")) {"${sampleName}.fixed.vcf.idx"}
+                                                    else if (filename.endsWith(".minor.vcf")) {"${sampleName}.minor.vcf"}
+                                                    else if (filename.endsWith(".minor.vcf.idx")) {"${sampleName}.minor.vcf.idx"}}
 
     input:
         val sampleName
@@ -23,7 +24,7 @@ process Masking {
         path "${clean_vcf}.fixed.vcf", emit: fixed_vcf
         path "${clean_vcf}.fixed.vcf.idx", emit: fixed_idx
         path "${lofreq_vcf}.minor.vcf", emit: minor_vcf
-        path "${lofreq_vcf}.minor.vcf.idx". emit: minor_idx
+        path "${lofreq_vcf}.minor.vcf.idx", emit: minor_idx
 
     script:
     """
