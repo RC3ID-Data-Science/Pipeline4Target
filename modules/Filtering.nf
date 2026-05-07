@@ -4,7 +4,7 @@ process Filtering {
 
     conda 'gatk4'
 
-    publishDir params.outdir + "/VCF", mode: 'copy', saveAs: {filename -> if (filename.endsWith("_clean.snps.vcf")) {"${sampleName}.vcf"}
+    publishDir params.outdir + "/Filtered", mode: 'copy', saveAs: {filename -> if (filename.endsWith("_clean.snps.vcf")) {"${sampleName}.vcf"}
                                                              else if (filename.endsWith("_clean.snps.vcf.idx")) {"${sampleName}.vcf.idx"}}
 
     input:

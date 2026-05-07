@@ -2,9 +2,10 @@
 
 process Masking {
 
-    publishDir params.outdir, mode: 'copy', saveAs: { filename -> if (filename.endsWith(".fixed.vcf")) {"${sampleName}.fixed.vcf"}
+    publishDir params.outdir + "/VCF", mode: 'copy', saveAs: { filename -> if (filename.endsWith(".fixed.vcf")) {"${sampleName}.fixed.vcf"}
+                                                    else if (filename.endsWith(".fixed.vcf.idx")) {"${sampleName}.fixed.vcf.idx"}}
                                                     else if (filename.endsWith(".minor.vcf")) {"${sampleName}.minor.vcf"}}
-
+                                                    else if (filename.endsWith(".minor.vcf.idx")) {"${sampleName}.minor.vcf.idx"}}
     conda 'gatk4'
 
     input:
@@ -19,7 +20,9 @@ process Masking {
 
     output:
         path "${fixed_vcf}.fixed.vcf", emit: fixed_vcf
+        path "${fixed_vcf}.fixed.vcf.idx", emit: fixed_idx
         path "${minor_vcf}.minor.vcf", emit: minor_vcf
+        path "${minor_vcf}.minor.vcf.idx". emit: minor_idx
 
     script:
     """
