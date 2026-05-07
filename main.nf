@@ -23,8 +23,8 @@ include { Dedup } from './modules/Dedup.nf'
 include { Calling } from './modules/Calling.nf'
 include { Filtering } from './modules/Filtering.nf'
 include { FastaConversion } from './modules/FastaConversion.nf'
-include { Annotation } from './modules/Annotation.nf'
 include { Lofreq } from './modules/Lofreq.nf'
+include { Annotation } from './modules/Annotation.nf'
 
 workflow {
 
@@ -42,6 +42,6 @@ workflow {
     Calling(sampleName_ch, Dedup.out.bam_processed, ref_file, ref_index_file, ref_dict_file)
     Filtering(sampleName_ch, Calling.out.called_vcf, Calling.out.called_idx, ref_file, ref_index_file, ref_dict_file)
     FastaConversion(sampleName_ch, Filtering.out.clean_vcf, Filtering.out.clean_idx, ref_file, ref_index_file, ref_dict_file)
-    Lofreq(sampleName_ch, Dedup.out.bam_processed,
+    Lofreq(sampleName_ch, Dedup.out.bam_processed, Dedup.out.bam_processed_idx, ref_file, ref_index_file, ref_dict_file)
 
 }

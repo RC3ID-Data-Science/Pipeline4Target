@@ -17,6 +17,7 @@ process Dedup {
     output:
         path "${bwa_aligned}_metrics.txt"
         path "${bwa_aligned}_dedup.bam", emit: bam_processed
+        path "${bwa_aligned}_dedup.bam.bai", emit: bam_processed_idx
 
     script:
     """
