@@ -10,8 +10,9 @@ process Masking {
 
     input:
         val sampleName
-        path fixed_vcf
-        path minor_vcf
+        path clean_vcf
+        path clean_idx
+        path lofreq_vcf
         path ref
         path ref_index
         path ref_dict
@@ -19,17 +20,18 @@ process Masking {
         path mask_index
 
     output:
-        path "${fixed_vcf}.fixed.vcf", emit: fixed_vcf
-        path "${fixed_vcf}.fixed.vcf.idx", emit: fixed_idx
-        path "${minor_vcf}.minor.vcf", emit: minor_vcf
-        path "${minor_vcf}.minor.vcf.idx". emit: minor_idx
+        path "${clean_vcf}.fixed.vcf", emit: fixed_vcf
+        path "${clean_vcf}.fixed.vcf.idx", emit: fixed_idx
+        path "${lofreq_vcf}.minor.vcf", emit: minor_vcf
+        path "${lofreq_vcf}.minor.vcf.idx". emit: minor_idx
 
     script:
     """
-    gatk4 VariantFiltration --R ${ref} --V ${fixed_vcf} --mask ${mask} --O ${fixed_vcf}.fixed.flagged.vcf
-    gatk4 VariantFiltration --R ${ref} --V ${minor_vcf} --mask ${mask} --O ${minor_vcf}.minor.flagged.vcf
-    gatk4 SelectVariants --R ${ref} --V ${fixed_vcf}.fixed.flagged.vcf --exclude-filtered --O ${fixed_vcf}.fixed.vcf
-    gatk4 SelectVariants --R ${ref} --V ${minor_vcf}.minor.flagged.vcf --exclude-filtered --O ${minor_vcf}.minor.vcf
+    gatk IndexFeatureFile --I ${lofreq_vcf}
+    gatk VariantFiltration --R ${ref} --V ${clean_vcf} --mask ${mask} --O ${clean_vcf}.fixed.flagged.vcf
+    gatk VariantFiltration --R ${ref} --V ${lofreq_vcf} --mask ${mask} --O ${lofreq_vcf}.minor.flagged.vcf
+    gatk SelectVariants --R ${ref} --V ${clean_vcf}.fixed.flagged.vcf --exclude-filtered --O ${clean_vcf}.fixed.vcf
+    gatk SelectVariants --R ${ref} --V ${lofreq_vcf}.minor.flagged.vcf --exclude-filtered --O ${lofreq_vcf}.minor.vcf
     """
 
 }
