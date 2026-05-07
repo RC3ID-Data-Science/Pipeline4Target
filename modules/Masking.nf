@@ -2,24 +2,31 @@
 
 process Masking {
 
-    publishDir params.outdir, mode: 'copy', saveAs: { filename -> if (filename.endsWith(".bed")) {"${projectName}_to_be_masked.bed"}
-                                                    else if (filename.endsWith(".masked.fasta")) {"${projectName}.masked.fasta"}}
+    publishDir params.outdir, mode: 'copy', saveAs: { filename -> if (filename.endsWith(".fixed.vcf")) {"${sampleName}.fixed.vcf"}
+                                                    else if (filename.endsWith(".minor.vcf")) {"${sampleName}.minor.vcf"}}
 
-    conda 'bedtools'
+    conda 'gatk4'
 
     input:
-        val projectName
-        path unmaskedFasta
-        path sampleList
+        val sampleName
+        path fixed_vcf
+        path minor_vcf
+        path ref
+        path ref_index
+        path ref_dict
+        path mask
+        path mask_index
 
     output:
-        path "${unmaskedFasta}_to_be_masked.bed"
-        path "${unmaskedFasta}.masked.fasta"
+        path "${fixed_vcf}.fixed.vcf", emit: fixed_vcf
+        path "${minor_vcf}.minor.vcf", emit: minor_vcf
 
     script:
     """
-    python ${projectDir}/Scripts/prepare_multifasta_bedfile.py ${sampleList} > ${unmaskedFasta}_to_be_masked.bed
-    bedtools maskfasta -fi ${unmaskedFasta} -bed ${unmaskedFasta}_to_be_masked.bed -fo ${unmaskedFasta}.masked.fasta
+    gatk4 VariantFiltration --R ${ref} --V ${fixed_vcf} --mask ${mask} --O ${fixed_vcf}.fixed.flagged.vcf
+    gatk4 VariantFiltration --R ${ref} --V ${minor_vcf} --mask ${mask} --O ${minor_vcf}.minor.flagged.vcf
+    gatk4 SelectVariants --R ${ref} --V ${fixed_vcf}.fixed.flagged.vcf --exclude-filtered --O ${fixed_vcf}.fixed.vcf
+    gatk4 SelectVariants --R ${ref} --V ${minor_vcf}.minor.flagged.vcf --exclude-filtered --O ${minor_vcf}.minor.vcf
     """
 
 }
