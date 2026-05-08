@@ -8,17 +8,6 @@ params.ref_dict = "${projectDir}/Reference/NC_000962.3.dict"
 params.mask = "${projectDir}/Reference/Farhat_RLC_Regions.bed"
 params.mask_index = "${projectDir}/Reference/Farhat_RLC_Regions.bed.idx"
 
-log.info """
-Pipeline_11
-RC3ID & CentraBioRes
-Universitas Padjadjaran
-================================
-sample     : $params.sample_name
-reads      : $params.raw_read1 & $params.raw_read2
-outdir     : $params.outdir
-================================
-"""
-
 include { Trimming } from './modules/Trimming.nf'
 include { Mapping } from './modules/Mapping.nf'
 include { Dedup } from './modules/Dedup.nf'
@@ -33,6 +22,17 @@ include { GenerateReport } from './modules/GenerateReport.nf'
 include { ReportCleanUp } from './modules/ReportCleanUp.nf'
 
 workflow {
+
+    log.info """
+    Pipeline_11
+    RC3ID & CentraBioRes
+    Universitas Padjadjaran
+    ================================
+    sample     : $params.sample_name
+    reads      : $params.raw_read1 & $params.raw_read2
+    outdir     : $params.outdir
+    ================================
+    """
 
     ref_file = file(params.ref)
     ref_index_file = file(params.ref_index)
