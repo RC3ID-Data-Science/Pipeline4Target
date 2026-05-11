@@ -16,6 +16,7 @@ include { Filtering } from './modules/Filtering.nf'
 include { Delly } from './modules/Delly.nf'
 include { Lofreq } from './modules/Lofreq.nf'
 include { Masking } from './modules/Masking.nf'
+include { MergeVCFs} from './modules/MergeVCFs.nf'
 include { SNPStatistics } from './modules/SNPStatistics.nf'
 include { FastaConversion } from './modules/FastaConversion.nf'
 include { Annotation } from './modules/Annotation.nf'
@@ -54,6 +55,7 @@ workflow {
     Delly(sampleName_ch, Dedup.out.bam_processed, ref_file, ref_index_file, ref_dict_file)
     Lofreq(sampleName_ch, Dedup.out.bam_processed, Dedup.out.bam_processed_idx, ref_file, ref_index_file, ref_dict_file)
     Masking(sampleName_ch, Filtering.out.clean_vcf, Filtering.out.clean_idx, Lofreq.out.lofreq_vcf, ref_file, ref_index_file, ref_dict_file, mask_file, mask_index_file)
+    MergeVCFs(sampleName_ch, Masking.out.fixed_vcf, Masking.out.fixed_idx, Filtering.out.clean_indels, Filtering.out.indels_idx, Delly.out.filtered_delly)
     SNPStatistics(sampleName_ch, Masking.out.fixed_vcf, Masking.out.minor_vcf)
     FastaConversion(sampleName_ch, Masking.out.fixed_vcf, Masking.out.fixed_idx, ref_file, ref_index_file, ref_dict_file)
     Annotation(sampleName_ch, Masking.out.fixed_vcf, Masking.out.minor_vcf)
