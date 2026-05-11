@@ -9,7 +9,7 @@ process SNPStatistics {
 
     input:
         val sampleName
-        path fixed_vcf
+        path full_vcf
         path minor_vcf
 
     output:
