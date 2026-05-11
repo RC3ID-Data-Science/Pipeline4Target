@@ -28,11 +28,15 @@ process Masking {
 
     script:
     """
-    gatk IndexFeatureFile --I ${lofreq_vcf}
     gatk VariantFiltration --R ${ref} --V ${clean_vcf} --mask ${mask} --O ${clean_vcf}.fixed.flagged.vcf
-    gatk VariantFiltration --R ${ref} --V ${lofreq_vcf} --mask ${mask} --O ${lofreq_vcf}.minor.flagged.vcf
     gatk SelectVariants --R ${ref} --V ${clean_vcf}.fixed.flagged.vcf --exclude-filtered --O ${clean_vcf}.fixed.vcf
-    gatk SelectVariants --R ${ref} --V ${lofreq_vcf}.minor.flagged.vcf --exclude-filtered --O ${lofreq_vcf}.minor.vcf
+
+    gatk IndexFeatureFile --I ${lofreq_vcf}
+    gatk SelectVariants --R ${ref} --V ${lofreq_vcf} --select-type-to-include INDEL --O ${lofreq_vcf}.minor.indels.vcf
+    gatk SelectVariants --R ${ref} --V ${lofreq_vcf} --select-type-to-include SNP --O ${lofreq_vcf}.minor.raw.snps.vcf
+    gatk VariantFiltration --R ${ref} --V ${lofreq_vcf}.minor.raw.snps --mask ${mask} --O ${lofreq_vcf}.minor.flagged.snps.vcf
+    gatk SelectVariants --R ${ref} --V ${lofreq_vcf}.minor.flagged.snps.vcf --exclude-filtered --O ${lofreq_vcf}.minor.snps.vcf
+    gatk MergeVcfs --I ${lofreq_vcf}.minor.snps.vcf --I ${lofreq_vcf}.minor.indels.vcf --O ${lofreq_vcf}.minor.vcf
     """
 
 }
