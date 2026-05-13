@@ -4,7 +4,7 @@ process MergeVCFs {
 
     conda 'gatk4'
 
-    publishDir params.outdir + "/VCF", mode: 'copy', saveAs: { filename -> if (filename.endsWith(".full.vcf")) {"${sampleName}.full.vcf"}
+    publishDir params.outdir + "/VCF", mode: 'copy', saveAs: { filename -> if (filename.endsWith(".full.vcf")) {"${sampleName}.full.vcf"}}
 
     input:
         val sampleName
