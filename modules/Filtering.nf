@@ -19,7 +19,7 @@ process Filtering {
         path "${called_vcf}_clean.snps.vcf", emit: clean_vcf
         path "${called_vcf}_clean.snps.vcf.idx", emit: clean_idx
         path "${called_vcf}_clean.indels.vcf", emit: clean_indels
-        path "${called_vcf}_clean.indels.vcf.ids", emit: indels_idx
+        path "${called_vcf}_clean.indels.vcf.idx", emit: indels_idx
 
     script:
     """
