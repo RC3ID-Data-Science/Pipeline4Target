@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-process FastaConversion {
+process MergeVCFs {
 
     conda 'gatk4'
 
