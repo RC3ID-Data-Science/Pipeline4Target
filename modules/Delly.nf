@@ -7,6 +7,7 @@ process Delly {
     input:
         val sampleName
         path bam_processed
+        path bam_processed_idx
         path ref
         path ref_index
         path ref_dict
