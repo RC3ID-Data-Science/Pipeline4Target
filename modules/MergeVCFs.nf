@@ -20,7 +20,7 @@ process MergeVCFs {
 
     script:
     """
-    gatk SelectVariants --V ${filtered_delly} --exlude-filtered --O ${filtered_delly}_clean_delly.vcf
+    gatk SelectVariants --V ${filtered_delly} --exclude-filtered --O ${filtered_delly}_clean_delly.vcf
     gatk MergeVcfs --I ${fixed_vcf} --I ${clean_indels} --I ${filtered_delly}_clean_delly.vcf --O ${fixed_vcf}.full.vcf
     """
 
