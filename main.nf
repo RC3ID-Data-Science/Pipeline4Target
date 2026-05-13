@@ -26,8 +26,8 @@ include { ReportCleanUp } from './modules/ReportCleanUp.nf'
 workflow {
 
     log.info """
-    Pipeline_11
-    RC3ID & CentraBioRes
+    Pipeline4TARGET
+    RC3ID
     Universitas Padjadjaran
     ================================
     sample     : $params.sample_name
