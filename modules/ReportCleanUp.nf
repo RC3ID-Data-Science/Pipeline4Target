@@ -31,10 +31,10 @@ process ReportCleanUp {
     Rscript ${projectDir}/Scripts/merge_minor_snps.R ${minor_snpstats} ${minor_snps_report}.minor.snps.tsv > ${minor_snps_report}.minor.snps.final.tsv
 
     Rscript ${projectDir}/Scripts/fixed_indels_clean_up.R ${fixed_indels_report}.fixed.indels.tsv > ${fixed_indels_report}.fixed.indels.final.tsv
-    Rscript ${projectDir}/Scripts/minor_indels_clean_up.R ${minor_indels_report}.minor.indels.tsv > ${minor_indels_report}.minor.indels.final.tsv
     Rscript ${projectDir}/Scripts/delly_clean_up.R ${delly_report}.delly.tsv > ${delly_report}.delly.final.tsv
+    Rscript ${projectDir}/Scripts/minor_indels_clean_up.R ${minor_indels_report}.minor.indels.tsv > ${minor_indels_report}.minor.indels.final.tsv
 
-    cat ${fixed_snps_report}.fixed.snps.final.tsv ${minor_snps_report}.minor.snps.final.tsv ${fixed_indels_report}.fixed.indels.final.tsv ${minor_indels_report}.minor.indels.final.tsv ${delly_report}.delly.final.tsv > ${fixed_snps_report}.complete_report.tsv
+    cat ${fixed_snps_report}.fixed.snps.final.tsv ${minor_snps_report}.minor.snps.final.tsv ${fixed_indels_report}.fixed.indels.final.tsv ${delly_report}.delly.final.tsv ${minor_indels_report}.minor.indels.final.tsv > ${fixed_snps_report}.complete_report.tsv
     """
 
 }
