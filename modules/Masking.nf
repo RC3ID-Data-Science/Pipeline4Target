@@ -38,8 +38,8 @@ process Masking {
 
     script:
     """
-    gatk SelectVariants --R ${ref} --V ${flagged_snps} --select-type-to-include SNP --O ${flagged_snps}.fixed.snps.vcf
-    gatk SelectVariants --R ${ref} --V ${flagged_indels} --select-type-to-include INDEL --O ${flagged_indels}.fixed.indels.vcf
+    gatk SelectVariants --R ${ref} --V ${flagged_snps} --select-type-to-include SNP --exclude-filtered --O ${flagged_snps}.fixed.snps.vcf
+    gatk SelectVariants --R ${ref} --V ${flagged_indels} --select-type-to-include INDEL --exclude-filtered --O ${flagged_indels}.fixed.indels.vcf
 
     gatk IndexFeatureFile --I ${lofreq_vcf}
     gatk SelectVariants --R ${ref} --V ${lofreq_vcf} --select-type-to-include INDEL --O ${lofreq_vcf}.minor.indels.vcf
