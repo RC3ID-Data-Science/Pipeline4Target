@@ -59,7 +59,7 @@ workflow {
     SNPStatistics(sampleName_ch, MergeVCFs.out.full_vcf, Masking.out.minor_vcf)
     FastaConversion(sampleName_ch, Masking.out.fixed_snps, Masking.out.fixed_snps_idx, ref_file, ref_index_file, ref_dict_file)
     Annotation(sampleName_ch, Masking.out.fixed_snps, Masking.out.fixed_snps_idx, Masking.out.fixed_indels, Masking.out.fixed_indels_idx, Masking.out.minor_snps, Masking.out.minor_snps_idx, Masking.out.minor_indelx, Masking.out.minor_indels_idx, Delly.out.filtered_delly)
-    GenerateReport(sampleName_ch, Annotation.out.ann_full_vcf, Annotation.out.ann_minor_vcf)
+    GenerateReport(sampleName_ch, Annotation.out.ann_fixed.snps, Annotation.out.ann_fixed_indels, Annotation.out.ann_minor_snps, Annotation.out.ann_minor_indels, Annotation.out.ann_delly)
     ReportCleanUp(sampleName_ch, GenerateReport.out.full_report, GenerateReport.out.minor_report, SNPStatistics.out.full_snpstats, SNPStatistics.out.minor_snpstats)
 
 }
