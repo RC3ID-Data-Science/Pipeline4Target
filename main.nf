@@ -50,14 +50,14 @@ workflow {
     Mapping(sampleName_ch, Trimming.out.fastp_R1, Trimming.out.fastp_R2, ref_file, ref_index_file, ref_dict_file)
     Dedup(sampleName_ch, Mapping.out.bwa_aligned, ref_file, ref_index_file, ref_dict_file)
     Calling(sampleName_ch, Dedup.out.bam_processed, ref_file, ref_index_file, ref_dict_file)
-    Filtering(sampleName_ch, Calling.out.called_vcf, Calling.out.called_idx, ref_file, ref_index_file, ref_dict_file)
+    Filtering(sampleName_ch, Calling.out.called_vcf, Calling.out.called_idx, ref_file, ref_index_file, ref_dict_file, mask_file, mask_index_file)
     Delly(sampleName_ch, Dedup.out.bam_processed, Dedup.out.bam_processed_idx, ref_file, ref_index_file, ref_dict_file)
-    Lofreq(sampleName_ch, Dedup.out.bam_processed, Dedup.out.bam_processed_idx, ref_file, ref_index_file, ref_dict_file, mask_file, mask_index_file)
+    Lofreq(sampleName_ch, Dedup.out.bam_processed, Dedup.out.bam_processed_idx, ref_file, ref_index_file, ref_dict_file)
     Masking(sampleName_ch, Filtering.out.flagged_snps, Filtering.out.flagged_snps_idx, Filtering.out.flagged_indels, Filtering.out.flagged_indels_idx, Lofreq.out.lofreq_vcf, ref_file, ref_index_file, ref_dict_file, mask_file, mask_index_file)
     SNPStatistics(sampleName_ch, Masking.out.fixed_snps, Masking.out.minor_snps)
     FastaConversion(sampleName_ch, Masking.out.fixed_snps, Masking.out.fixed_snps_idx, ref_file, ref_index_file, ref_dict_file)
     Annotation(sampleName_ch, Masking.out.fixed_snps, Masking.out.fixed_snps_idx, Masking.out.fixed_indels, Masking.out.fixed_indels_idx, Masking.out.minor_snps, Masking.out.minor_snps_idx, Masking.out.minor_indelx, Masking.out.minor_indels_idx, Delly.out.filtered_delly)
-    GenerateReport(sampleName_ch, Annotation.out.ann_fixed.snps, Annotation.out.ann_fixed_indels, Annotation.out.ann_minor_snps, Annotation.out.ann_minor_indels, Annotation.out.ann_delly)
+    GenerateReport(sampleName_ch, Annotation.out.ann_fixed_snps, Annotation.out.ann_fixed_indels, Annotation.out.ann_minor_snps, Annotation.out.ann_minor_indels, Annotation.out.ann_delly)
     ReportCleanUp(sampleName_ch, GenerateReport.out.fixed_snps_report, GenerateReport.out.fixed_indels_report, GenerateReport.out.minor_snps_report, GenerateReport.out.minor_indels_report, GenerateReport.out.delly_report, SNPStatistics.out.fixed_snpstats, SNPStatistics.out.minor_snpstats)
 
 }
