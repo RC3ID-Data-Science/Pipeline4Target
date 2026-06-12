@@ -9,17 +9,17 @@ process SNPStatistics {
 
     input:
         val sampleName
-        path fixed_vcf
-        path minor_vcf
+        path fixed_snps
+        path minor_snps
 
     output:
-        path "${fixed_vcf}_fixed_snpstats.tsv", emit: fixed_snpstats
-        path "${minor_vcf}_minor_snpstats.tsv", emit: minor_snpstats
+        path "${fixed_snps}_fixed_snpstats.tsv", emit: fixed_snpstats
+        path "${minor_snps}_minor_snpstats.tsv", emit: minor_snpstats
 
     script:
     """
-    gatk VariantsToTable --V ${fixed_vcf} --F POS --F AF --F DP --O ${fixed_vcf}_fixed_snpstats.tsv
-    gatk VariantsToTable --V ${minor_vcf} --F POS --F AF --F DP --O ${minor_vcf}_minor_snpstats.tsv
+    gatk VariantsToTable --V ${fixed_snps} --F POS --F AF --F DP --O ${fixed_snps}_fixed_snpstats.tsv
+    gatk VariantsToTable --V ${minor_snps} --F POS --F AF --F DP --O ${minor_snps}_minor_snpstats.tsv
     """
 
 }

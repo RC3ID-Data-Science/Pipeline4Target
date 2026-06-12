@@ -4,22 +4,34 @@ process GenerateReport {
 
     conda 'tbvcfreport'
 
-    publishDir params.outdir + "/tbvcfreport", mode: 'copy', saveAs: {filename -> if (filename.endsWith(".minor_variants_report.txt")) {"${sampleName}.minor_variants_report.txt"}
-                                                                     else if (filename.endsWith(".fixed_variants_report.txt")) {"${sampleName}.fixed_variants_report.txt"}}
+    publishDir params.outdir + "/tbvcfreport", mode: 'copy', saveAs: {filename -> if (filename.endsWith(".ann.fixed.snps_variants_report.txt")) {"${sampleName}.ann.fixed.snps_variants_report.txt"}
+                                                                     else if (filename.endsWith(".ann.fixed.indels_variants_report.txt")) {"${sampleName}.ann.fixed.indels_variants_report.txt"}
+                                                                     else if (filename.endsWith(".ann.minor.snps_variants_report.txt")) {"${sampleName}.ann.minor.snps_variants_report.txt"}
+                                                                     else if (filename.endsWith(".ann.minor.indels_variants_report.txt")) {"${sampleName}.ann.minor.indels_variants_report.txt"}
+                                                                     else if (filename.endsWith(".ann.delly_variants_report.txt")) {"${sampleName}.ann.delly_variants_report.txt"}}
 
     input:
         val sampleName
-        path ann_fixed_vcf
-        path ann_minor_vcf
+        path ann_fixed_snps
+        path ann_fixed_indels
+        path ann_minor_snps
+        path ann_minor_indels
+        path ann_delly
 
     output:
-        path "*.fixed_variants_report.txt", emit: fixed_report
-        path "*.minor_variants_report.txt", emit: minor_report
+        path "*.ann.fixed.snps_variants_report.txt", emit: fixed_snps_report
+        path "*.ann.fixed.indels_variants_report.txt", emit: fixed_indels_report
+        path "*.ann.minor.snps_variants_report.txt", emit: minor_snps_report
+        path "*.ann.minor.indels_variants_report.txt", emit: minor_indels_report
+        path "*.ann.delly_variants_report.txt", emit: delly_report
 
     script:
     """
-    tbvcfreport generate ${ann_fixed_vcf}
-    tbvcfreport generate ${ann_minor_vcf}
+    tbvcfreport generate ${ann_fixed_snps}
+    tbvcfreport generate ${ann_fixed_indels}
+    tbvcfreport generate ${ann_minor_snps}
+    tbvcfreport generate ${ann_minor_indels}
+    tbvcfreport generate ${ann_delly}
     """
 
 }

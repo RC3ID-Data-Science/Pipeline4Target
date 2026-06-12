@@ -8,22 +8,12 @@ params.ref_dict = "${projectDir}/Reference/NC_000962.3.dict"
 params.mask = "${projectDir}/Reference/Farhat_RLC_Regions.bed"
 params.mask_index = "${projectDir}/Reference/Farhat_RLC_Regions.bed.idx"
 
-log.info """
-Pipeline_11
-RC3ID & CentraBioRes
-Universitas Padjadjaran
-================================
-sample     : $params.sample_name
-reads      : $params.raw_read1 & $params.raw_read2
-outdir     : $params.outdir
-================================
-"""
-
 include { Trimming } from './modules/Trimming.nf'
 include { Mapping } from './modules/Mapping.nf'
 include { Dedup } from './modules/Dedup.nf'
 include { Calling } from './modules/Calling.nf'
 include { Filtering } from './modules/Filtering.nf'
+include { Delly } from './modules/Delly.nf'
 include { Lofreq } from './modules/Lofreq.nf'
 include { Masking } from './modules/Masking.nf'
 include { SNPStatistics } from './modules/SNPStatistics.nf'
@@ -33,6 +23,17 @@ include { GenerateReport } from './modules/GenerateReport.nf'
 include { ReportCleanUp } from './modules/ReportCleanUp.nf'
 
 workflow {
+
+    log.info """
+    Pipeline4TARGET
+    RC3ID
+    Universitas Padjadjaran
+    ================================
+    sample     : $params.sample_name
+    reads      : $params.raw_read1 & $params.raw_read2
+    outdir     : $params.outdir
+    ================================
+    """
 
     ref_file = file(params.ref)
     ref_index_file = file(params.ref_index)
@@ -49,13 +50,14 @@ workflow {
     Mapping(sampleName_ch, Trimming.out.fastp_R1, Trimming.out.fastp_R2, ref_file, ref_index_file, ref_dict_file)
     Dedup(sampleName_ch, Mapping.out.bwa_aligned, ref_file, ref_index_file, ref_dict_file)
     Calling(sampleName_ch, Dedup.out.bam_processed, ref_file, ref_index_file, ref_dict_file)
-    Filtering(sampleName_ch, Calling.out.called_vcf, Calling.out.called_idx, ref_file, ref_index_file, ref_dict_file)
+    Filtering(sampleName_ch, Calling.out.called_vcf, Calling.out.called_idx, ref_file, ref_index_file, ref_dict_file, mask_file, mask_index_file)
+    Delly(sampleName_ch, Dedup.out.bam_processed, Dedup.out.bam_processed_idx, ref_file, ref_index_file, ref_dict_file)
     Lofreq(sampleName_ch, Dedup.out.bam_processed, Dedup.out.bam_processed_idx, ref_file, ref_index_file, ref_dict_file)
-    Masking(sampleName_ch, Filtering.out.clean_vcf, Filtering.out.clean_idx, Lofreq.out.lofreq_vcf, ref_file, ref_index_file, ref_dict_file, mask_file, mask_index_file)
-    SNPStatistics(sampleName_ch, Masking.out.fixed_vcf, Masking.out.minor_vcf)
-    FastaConversion(sampleName_ch, Masking.out.fixed_vcf, Masking.out.fixed_idx, ref_file, ref_index_file, ref_dict_file)
-    Annotation(sampleName_ch, Masking.out.fixed_vcf, Masking.out.minor_vcf)
-    GenerateReport(sampleName_ch, Annotation.out.ann_fixed_vcf, Annotation.out.ann_minor_vcf)
-    ReportCleanUp(sampleName_ch, GenerateReport.out.fixed_report, GenerateReport.out.minor_report, SNPStatistics.out.fixed_snpstats, SNPStatistics.out.minor_snpstats)
+    Masking(sampleName_ch, Filtering.out.flagged_snps, Filtering.out.flagged_snps_idx, Filtering.out.flagged_indels, Filtering.out.flagged_indels_idx, Lofreq.out.lofreq_vcf, ref_file, ref_index_file, ref_dict_file, mask_file, mask_index_file)
+    SNPStatistics(sampleName_ch, Masking.out.fixed_snps, Masking.out.minor_snps)
+    FastaConversion(sampleName_ch, Masking.out.fixed_snps, Masking.out.fixed_snps_idx, ref_file, ref_index_file, ref_dict_file)
+    Annotation(sampleName_ch, Masking.out.fixed_snps, Masking.out.fixed_snps_idx, Masking.out.fixed_indels, Masking.out.fixed_indels_idx, Masking.out.minor_snps, Masking.out.minor_snps_idx, Masking.out.minor_indels, Masking.out.minor_indels_idx, Delly.out.filtered_delly)
+    GenerateReport(sampleName_ch, Annotation.out.ann_fixed_snps, Annotation.out.ann_fixed_indels, Annotation.out.ann_minor_snps, Annotation.out.ann_minor_indels, Annotation.out.ann_delly)
+    ReportCleanUp(sampleName_ch, GenerateReport.out.fixed_snps_report, GenerateReport.out.fixed_indels_report, GenerateReport.out.minor_snps_report, GenerateReport.out.minor_indels_report, GenerateReport.out.delly_report, SNPStatistics.out.fixed_snpstats, SNPStatistics.out.minor_snpstats)
 
 }
