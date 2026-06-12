@@ -9,6 +9,12 @@ process GenerateReport {
 
     input:
         val sampleName
+        ann_fixed_snps
+        ann_fixed_indels
+        ann_minor_snps
+        ann_minor_indels
+        ann_delly
+
         path ann_full_vcf
         path ann_minor_vcf
 
