@@ -5,7 +5,7 @@ process Masking {
     conda 'gatk4'
 
     publishDir params.outdir + "/VCF", mode: 'copy', saveAs: { filename -> if (filename.endsWith(".fixed.snps.vcf")) {"${sampleName}.fixed.snps.vcf"}
-                                                    else if (filename.endsWith(".fixed.snps.vcf.idx") {"${sampleName}.fixed.snps.vcf.idx"}
+                                                    else if (filename.endsWith(".fixed.snps.vcf.idx")) {"${sampleName}.fixed.snps.vcf.idx"}
                                                     else if (filename.endsWith(".fixed.indels.vcf")) {"${sampleName}.fixed.indels.vcf"}
                                                     else if (filename.endsWith(".fixed.indels.vcf.idx")) {"${sampleName}.fixed.indels.vcf.idx"}
                                                     else if (filename.endsWith(".minor.snps.vcf")) {"${sampleName}.minor.snps.vcf"}
