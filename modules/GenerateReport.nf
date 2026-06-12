@@ -12,11 +12,11 @@ process GenerateReport {
 
     input:
         val sampleName
-        ann_fixed_snps
-        ann_fixed_indels
-        ann_minor_snps
-        ann_minor_indels
-        ann_delly
+        path ann_fixed_snps
+        path ann_fixed_indels
+        path ann_minor_snps
+        path ann_minor_indels
+        path ann_delly
 
     output:
         path "*.ann.fixed.snps_variants_report.txt", emit: fixed_snps_report
