@@ -20,7 +20,6 @@ process Masking {
         path flagged_indels
         path flagged_indels_idx
         path lofreq_vcf
-        path filtered_delly
         path ref
         path ref_index
         path ref_dict

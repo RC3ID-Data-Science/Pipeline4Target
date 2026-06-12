@@ -54,7 +54,7 @@ workflow {
     Filtering(sampleName_ch, Calling.out.called_vcf, Calling.out.called_idx, ref_file, ref_index_file, ref_dict_file)
     Delly(sampleName_ch, Dedup.out.bam_processed, Dedup.out.bam_processed_idx, ref_file, ref_index_file, ref_dict_file)
     Lofreq(sampleName_ch, Dedup.out.bam_processed, Dedup.out.bam_processed_idx, ref_file, ref_index_file, ref_dict_file, mask_file, mask_index_file)
-    Masking(sampleName_ch, Filtering.out.flagged_snps, Filtering.out.flagged_snps_idx, Filtering.out.flagged_indels, Filtering.out.flagged_indels_idx, Lofreq.out.lofreq_vcf, Delly.out.filtered_delly, ref_file, ref_index_file, ref_dict_file, mask_file, mask_index_file)
+    Masking(sampleName_ch, Filtering.out.flagged_snps, Filtering.out.flagged_snps_idx, Filtering.out.flagged_indels, Filtering.out.flagged_indels_idx, Lofreq.out.lofreq_vcf, ref_file, ref_index_file, ref_dict_file, mask_file, mask_index_file)
     MergeVCFs(sampleName_ch, Masking.out.fixed_vcf, Masking.out.fixed_idx, Filtering.out.clean_indels, Filtering.out.indels_idx, Delly.out.filtered_delly)
     SNPStatistics(sampleName_ch, MergeVCFs.out.full_vcf, Masking.out.minor_vcf)
     FastaConversion(sampleName_ch, Masking.out.fixed_vcf, Masking.out.fixed_idx, ref_file, ref_index_file, ref_dict_file)
