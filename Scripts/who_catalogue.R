@@ -7,7 +7,7 @@ sample_file <- args[1]
 who_file <- args[2]
 
 sample_table <- read.table(sample_file, sep = '\t', header = TRUE, check.names = FALSE, quote = "")
-who_table <- read.table(who_file, sep = '\t', header = TRUE, check.names = FALSE, quote = "")
+who_table <- read.table(who_file, sep = ',', header = TRUE, check.names = FALSE, quote = "")
 
 
 
