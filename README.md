@@ -62,4 +62,5 @@ snpEff
 
 tbvcfreport
 > <https://github.com/COMBAT-TB/tbvcfreport>
+
 > van Heusden P, Mashologu Z, Lose T, Warren R, Christoffels A. The COMBAT-TB Workbench: Making Powerful Mycobacterium tuberculosis Bioinformatics Accessible. mSphere 7:e00991-21. <https://doi.org/10.1128/msphere.00991-21>
