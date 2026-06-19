@@ -1,6 +1,6 @@
 # Pipeline4Target
 
-![RC3ID Logo](Logos/Pusris.jpg)
+![RC3ID Logo](Logo/Pusris.jpg)
 
 This pipeline was written for the TARGET Project for the analysis of Mycobacterium tuberculosis genomes.
 
@@ -63,22 +63,3 @@ snpEff
 tbvcfreport
 > <https://github.com/COMBAT-TB/tbvcfreport>
 > van Heusden P, Mashologu Z, Lose T, Warren R, Christoffels A. The COMBAT-TB Workbench: Making Powerful Mycobacterium tuberculosis Bioinformatics Accessible. mSphere 7:e00991-21. <https://doi.org/10.1128/msphere.00991-21>
-
-
-
-
-
-
-Code for masking fastas was provided by Dr. Philip Ashton, regions masked as per (Holt, et al., 2018):
-> Holt, K.E., McAdam, P., Thai, P.V.K. et al. Frequent transmission of the Mycobacterium tuberculosis Beijing lineage and positive selection for the EsxW Beijing variant in Vietnam. Nat Genet 50, 849–856 (2018). <https://doi.org/10.1038/s41588-018-0117-9>
-
-Seqkit
-> Shen W, Sipos B, Zhao L. SeqKit2: A Swiss army knife for sequence and alignment processing. iMeta. 2024;3(3):191. <https://doi.org/10.1002/imt2.191.>
-
-Bedtools
-> Aaron R. Quinlan, Ira M. Hall, BEDTools: a flexible suite of utilities for comparing genomic features, Bioinformatics, Volume 26, Issue 6, March 2010, Pages 841–842, <https://doi.org/10.1093/bioinformatics/btq033>
-
-### SNP-Distance Analysis
-
-snp-dists
-> https://github.com/tseemann/snp-dists.git
